@@ -22,7 +22,9 @@ export const createLocalmate = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    const imageUrl = req.file?.location; // multer-s3 adds `.location` to files uploaded to S3
+
+    console.log("Image URL:", imageUrl); // Debugging line to check the image URL
     if (!imageUrl) {
       return res.status(400).json(createResponse(false, "No image uploaded"));
     }
