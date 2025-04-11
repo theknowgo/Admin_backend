@@ -18,10 +18,11 @@ const userSchema = new mongoose.Schema({
   },
   userType: {
     type: String,
+    required: true,
     enum: ["Customer", "Localmate"],
   },
   contactNumber: {
-    type: String, // Changed from Number to String
+    type: String,
     required: true,
     unique: true,
     validate: {
@@ -33,15 +34,22 @@ const userSchema = new mongoose.Schema({
   banCount: { type: Number, default: 0 },
   banExpiration: { type: Date, default: null },
   isPermanentlyBanned: { type: Boolean, default: false },
-  defaultAddress: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "UserAddress",
-  },
   userPFP: { type: String },
   status: {
     type: String,
     enum: ["active", "inactive", "online"],
     default: "inactive",
+  },
+  currentLocation: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      default: "Point",
+    },
+    coordinates: {
+      type: [Number],
+      index: "2dsphere",
+    },
   },
 });
 
